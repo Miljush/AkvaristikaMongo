@@ -4,6 +4,8 @@ import "../styles/Sidebar.scss";
 import "../styles/Kartice.css";
 import "../styles/Cart.scss";
 import "../styles/AboutUs.scss";
+import "../styles/SelectCard.css";
+import "../styles/AddAquarium.css";
 
 const Header = () => {
   return (
@@ -201,6 +203,9 @@ const Header = () => {
 
           <li>
             <a href="AboutUs">O nama</a>
+          </li>
+          <li>
+            <a href="/SelectAdd">Dodaj proizvod</a>
           </li>
         </ul>
         <div id="utility">

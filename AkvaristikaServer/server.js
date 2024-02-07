@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3500;
 const mongoose = require("mongoose");
@@ -9,7 +10,11 @@ const cartController = require("./controllers/cartController");
 
 connectDB();
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.get("/getUser", userController.getUser);
 app.post("/registerUser", userController.registerUser);
 

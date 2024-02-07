@@ -8,7 +8,12 @@ $border-color: rgba(#535d7d, 0.3);
 
 $sidebar-header-height: 100px;
 $sidebar-footer-height: 230px;
-
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .layout {
   width: 250px;
   background-color: #0c1e35;

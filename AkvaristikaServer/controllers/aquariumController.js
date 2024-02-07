@@ -2,6 +2,7 @@ const Aquarium = require("../models/aquarium");
 
 const addAquarium = async (req, res) => {
   const { name, price, image, description, brand } = req.body;
+  console.log(req.body);
   if (!name || !price || !image || !description || !brand)
     return res
       .status(400)

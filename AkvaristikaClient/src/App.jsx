@@ -7,6 +7,8 @@ import AllProductsPage from "./pages/AllProductsPage";
 import Cart from "./pages/Cart";
 import AboutUs from "./pages/AboutUs";
 import TestAdd from "./pages/TestAdd";
+import SelectAdd from "./pages/SelectAdd";
+import AddAkvarijum from "./pages/AddAkvarijum";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +21,8 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/TestAdd" element={<TestAdd />} />
+        <Route path="/SelectAdd" element={<SelectAdd />} />
+        <Route path="/AddAquarium" element={<AddAkvarijum />} />
       </Route>
     </Routes>
   );

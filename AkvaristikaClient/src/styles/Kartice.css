@@ -213,3 +213,15 @@ h2 {
   padding: 20px;
   margin: 5px;
 }
+.pozadina {
+  background-image: url("../../public/img/avkarijumDodaj.jpg");
+}
+.pozadina2 {
+  background-image: url("../../public/img/riba.jpg");
+}
+.pozadina3 {
+  background-image: url("../../public/img/aquascapeplants.jpg");
+}
+.pozadina4 {
+  background-image: url("../../public/img/opremadodaj.jpg");
+}
