@@ -13,13 +13,10 @@ const AddAquarium = () => {
   const [opis, setOpis] = useState("");
   const [readyStrana, setReadyStrana] = useState(false);
   const [rehydrate, setRehydrate] = useState(true);
+  const [akvarijumi, setAkvarijumi] = useState(true);
   const [selectedOption, setSelectedOption] = useState("Juwel");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-  };
-  const log = (ev) => {
-    ev.preventDefault();
-    console.log(ime + cena + opis + brend + selectedOption);
   };
   const uploadFile = (ev) => {
     ev.preventDefault();
@@ -38,12 +35,11 @@ const AddAquarium = () => {
         axios
           .post("http://localhost:3500/addAquarium", data)
           .then(function (response) {
-            console.log(response);
+            setRehydrate(!rehydrate);
           })
           .catch(function (error) {
             console.log(error);
           });
-        setRehydrate(!rehydrate);
       });
     });
   };
@@ -60,13 +56,13 @@ const AddAquarium = () => {
 
       setImageUpload(selectedFile);
     }
-    useEffect(() => {
-      axios.get("/stanOglas/vratiDostupneOglase").then((response) => {
-        setOglasi(response.data);
-        setReadyStrana(true);
-      });
-    }, [rehydrate]);
   };
+  useEffect(() => {
+    axios.get("http://localhost:3500/getAquariums").then((response) => {
+      setAkvarijumi(response.data);
+      setReadyStrana(true);
+    });
+  }, [rehydrate, readyStrana]);
   if (!readyStrana) {
     return <LoadingPage />;
   } else {
@@ -140,8 +136,8 @@ const AddAquarium = () => {
         <div className="ivice">
           <main>
             <div className="kontejner">
-              {[...Array(6)].map((_, index) => (
-                <Card key={index} />
+              {akvarijumi.map((akvarijum, index) => (
+                <Card key={index} akvarijum={akvarijum} brisanje={true} />
               ))}
             </div>
           </main>

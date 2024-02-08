@@ -70,7 +70,8 @@ const updateAquarium = async (req, res) => {
 };
 
 const deleteAquarium = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
+  console.log(id);
   if (!id) {
     return res
       .status(400)
