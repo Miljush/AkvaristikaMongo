@@ -69,4 +69,18 @@ const addItemToUsersCart = async (req, res) => {
   );
   return res.status(200);
 };
-module.exports = { getUser, registerUser, addItemToUsersCart };
+
+const getCartForUser = async (req, res) => {
+  const id = req.body.id;
+  try {
+    const user = await User.findById(id);
+    if (user) {
+      res.status(200).json(user.cart);
+    } else {
+      res.status(404).json("No such User");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+module.exports = { getUser, registerUser, addItemToUsersCart,getCartForUser };
