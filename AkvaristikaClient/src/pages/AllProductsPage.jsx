@@ -7,28 +7,281 @@ import axios from "axios";
 
 const AllProductsPage = () => {
   const [isActive, setIsActive] = useState(false);
-  const [isActive2, setIsActive2] = useState(false);
-  const [isActive3, setIsActive3] = useState(false);
+  const [isActiveFish, setIsActiveFish] = useState(false);
   const [isActive4, setIsActive4] = useState(false);
   const [isActive5, setIsActive5] = useState(false);
+  const [isActiveBrand, setActiveBrand] = useState(false);
+  const [isActiveType, setActiveType] = useState(false);
+  const [isAquariums, setIsAquariums] = useState(false);
+  const [items, setItems] = useState(null);
+  const [aquariums, setAquariums] = useState([]);
+  const [readyStrana, setReadyStrana] = useState(false);
+  const [plants, setPlants] = useState([]);
+  const [isPlants, setIsPlants] = useState(false);
+  const [fish, setFish] = useState([]);
+  const [equipment, setEquipment] = useState([]);
+  const [isEquipment, setIsEquipment] = useState(false);
+  const [brand, setBrand] = useState("");
 
   const toggleClass = () => {
     setIsActive(!isActive);
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
   };
-  const toggleClass2 = () => {
-    setIsActive2(!isActive2);
+
+  const toggleBiOrbBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "biOrb") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
   };
-  const toggleClass3 = () => {
-    setIsActive3(!isActive3);
+  const toggleFluvalBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "Fluval") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
   };
-  const toggleClass4 = () => {
-    setIsActive4(!isActive4);
+  const toggleJuwelBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "Juwel") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
   };
-  const toggleClass5 = () => {
-    setIsActive5(!isActive5);
+  const toggleMarineBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "Innovative Marine") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
   };
-  const [items, setItems] = useState(null);
-  const [readyStrana, setReadyStrana] = useState(false);
+  const toggleOaseBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "Oase") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
+  };
+  const toggleRedSeaBrand = () => {
+    setIsAquariums(true);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(false);
+    setAquariums([]);
+    items.forEach((item) => {
+      if (item.__t == "Aquarium" && item.brand == "Red Sea") {
+        setAquariums((prevAquariums) => [...prevAquariums, item]);
+      }
+    });
+  };
+  const togglePlant = () => {
+    setIsPlants(true);
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsEquipment(false);
+    setPlants([]);
+    items.forEach((item) => {
+      if (item.__t == "Plant") {
+        setPlants((prevPlants) => [...prevPlants, item]);
+      }
+    });
+  };
+  const toggleFish = () => {
+    setIsPlants(false);
+    setIsAquariums(false);
+    setIsActiveFish(true);
+    setIsEquipment(false);
+    setFish([]);
+    items.forEach((item) => {
+      if (item.__t == "Fish") {
+        setFish((prevFish) => [...prevFish, item]);
+      }
+    });
+  };
+  const toggleEquipment = () => {
+    setActiveBrand(false);
+    setIsPlants(false);
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+  const toggleBrand = () => {
+    setActiveBrand(!isActiveBrand);
+  };
+  const toggleType = () => {
+    setActiveType(!isActiveType);
+  };
+  const toggleBiOrbBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "biOrb") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleFluvalBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "Fluval") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleJuwelBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "Juwel") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleMarineBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "Innovative Marine") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleOaseBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "Oase") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleRedSeaBrandEquipment = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.brand == "Red Sea") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const togglePumpe = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.type == "Pumpe") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleSvetla = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.type == "Svetla") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleFilteri = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.type == "Filteri") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
+  const toggleRasprsivaci = () => {
+    setIsAquariums(false);
+    setIsActiveFish(false);
+    setIsPlants(false);
+    setIsEquipment(true);
+    setEquipment([]);
+    items.forEach((item) => {
+      if (item.__t == "Equipment" && item.type == "Rasprsivaci") {
+        setEquipment((prevEquipment) => [...prevEquipment, item]);
+      }
+    });
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:3500/getItems")
@@ -39,7 +292,7 @@ const AllProductsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isAquariums]);
   if (!readyStrana) {
     return <LoadingPage />;
   } else {
@@ -73,85 +326,72 @@ const AllProductsPage = () => {
                       >
                         <ul>
                           <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Grid</span>
+                            <a href="#" onClick={toggleBrand}>
+                              <span className="menu-title">Brend</span>
                             </a>
-                          </li>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Layout</span>
-                            </a>
-                          </li>
-                          <li className="menu-item sub-menu">
-                            <a href="#" onClick={toggleClass2}>
-                              <span className="menu-title">Forms</span>
-                            </a>
+                            <div
+                              className="sub-menu-list1"
+                              style={{
+                                display: isActiveBrand ? "block" : "none",
+                              }}
+                            >
+                              <ul>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleJuwelBrand}>
+                                    <span className="menu-title">Juwel</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleOaseBrand}>
+                                    <span className="menu-title">Oase</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleFluvalBrand}>
+                                    <span className="menu-title">Fluval</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleBiOrbBrand}>
+                                    <span className="menu-title">biOrb</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleRedSeaBrand}>
+                                    <span className="menu-title">Red Sea</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleMarineBrand}>
+                                    <span className="menu-title">
+                                      Innovative Marine
+                                    </span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
                           </li>
                         </ul>
                       </div>
                     </li>
                     <li className="menu-item sub-menu">
-                      <a href="#" onClick={toggleClass2}>
+                      <a href="#" onClick={toggleFish}>
                         <span className="menu-icon">
                           <i className="ri-bar-chart-2-fill" />
                         </span>
                         <span className="menu-title">Ribice</span>
                       </a>
-                      <div
-                        className="sub-menu-list2"
-                        style={{ display: isActive2 ? "block" : "none" }}
-                      >
-                        <ul>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Biljke</span>
-                            </a>
-                          </li>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Line chart</span>
-                            </a>
-                          </li>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Bar chart</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
                     </li>
                     <li className="menu-item sub-menu">
-                      <a href="#" onClick={toggleClass3}>
+                      <a href="#" onClick={togglePlant}>
                         <span className="menu-icon">
                           <i className="ri-shopping-cart-fill" />
                         </span>
                         <span className="menu-title">Biljke</span>
                       </a>
-                      <div
-                        className="sub-menu-list3"
-                        style={{ display: isActive3 ? "block" : "none" }}
-                      >
-                        <ul>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Products</span>
-                            </a>
-                          </li>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Orders</span>
-                            </a>
-                          </li>
-                          <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">credit card</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
                     </li>
                     <li className="menu-item sub-menu">
-                      <a href="#" onClick={toggleClass4}>
+                      <a href="#" onClick={toggleEquipment}>
                         <span className="menu-icon">
                           <i className="ri-global-fill" />
                         </span>
@@ -159,20 +399,108 @@ const AllProductsPage = () => {
                       </a>
                       <div
                         className="sub-menu-list4"
-                        style={{ display: isActive4 ? "block" : "none" }}
+                        style={{ display: isEquipment ? "block" : "none" }}
                       >
                         <ul>
                           <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">Google maps</span>
+                            <a href="#" onClick={toggleBrand}>
+                              <span className="menu-title">Brend</span>
                             </a>
+                            <div
+                              className="sub-menu-list1"
+                              style={{
+                                display: isActiveBrand ? "block" : "none",
+                              }}
+                            >
+                              <ul>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleJuwelBrandEquipment}
+                                  >
+                                    <span className="menu-title">Juwel</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleOaseBrandEquipment}
+                                  >
+                                    <span className="menu-title">Oase</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleFluvalBrandEquipment}
+                                  >
+                                    <span className="menu-title">Fluval</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleBiOrbBrandEquipment}
+                                  >
+                                    <span className="menu-title">biOrb</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleRedSeaBrandEquipment}
+                                  >
+                                    <span className="menu-title">Red Sea</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a
+                                    href="#"
+                                    onClick={toggleMarineBrandEquipment}
+                                  >
+                                    <span className="menu-title">
+                                      Innovative Marine
+                                    </span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
                           </li>
                           <li className="menu-item">
-                            <a href="#">
-                              <span className="menu-title">
-                                Open street map
-                              </span>
+                            <a href="#" onClick={toggleType}>
+                              <span className="menu-title">Tip</span>
                             </a>
+                            <div
+                              className="sub-menu-list1"
+                              style={{
+                                display: isActiveType ? "block" : "none",
+                              }}
+                            >
+                              <ul>
+                                <li className="menu-item">
+                                  <a href="#" onClick={togglePumpe}>
+                                    <span className="menu-title">Pumpe</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleSvetla}>
+                                    <span className="menu-title">Svetla</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleFilteri}>
+                                    <span className="menu-title">Filteri</span>
+                                  </a>
+                                </li>
+                                <li className="menu-item">
+                                  <a href="#" onClick={toggleRasprsivaci}>
+                                    <span className="menu-title">
+                                      Rasprsivaci
+                                    </span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
                           </li>
                         </ul>
                       </div>
@@ -267,11 +595,41 @@ const AllProductsPage = () => {
         <div>
           <div className="ivice">
             <main>
-              <div className="kontejner">
-                {items.map((akvarijum, index) => (
-                  <DefaultCard key={index} akvarijum={akvarijum} />
-                ))}
-              </div>
+              {!isAquariums && !isPlants && !isActiveFish && !isEquipment && (
+                <div className="kontejner">
+                  {items?.map((akvarijum, index) => (
+                    <DefaultCard key={index} akvarijum={akvarijum} />
+                  ))}
+                </div>
+              )}
+              {isAquariums && (
+                <div className="kontejner">
+                  {aquariums?.map((akvarijum, index) => (
+                    <DefaultCard key={index} akvarijum={akvarijum} />
+                  ))}
+                </div>
+              )}
+              {isPlants && (
+                <div className="kontejner">
+                  {plants?.map((akvarijum, index) => (
+                    <DefaultCard key={index} akvarijum={akvarijum} />
+                  ))}
+                </div>
+              )}
+              {isActiveFish && (
+                <div className="kontejner">
+                  {fish?.map((akvarijum, index) => (
+                    <DefaultCard key={index} akvarijum={akvarijum} />
+                  ))}
+                </div>
+              )}
+              {isEquipment && (
+                <div className="kontejner">
+                  {equipment?.map((akvarijum, index) => (
+                    <DefaultCard key={index} akvarijum={akvarijum} />
+                  ))}
+                </div>
+              )}
             </main>
           </div>
         </div>

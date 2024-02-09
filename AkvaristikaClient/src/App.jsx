@@ -12,7 +12,9 @@ import LoginRegister from "./pages/LoginRegister";
 import ItemPage from "./pages/ItemPage";
 import { AppProvider } from "./context/AppContext";
 import { UserContextProvider } from "./context/UserContext";
-
+import AddFish from "./pages/AddFish";
+import AddPlant from "./pages/AddPlant";
+import AddEquipment from "./pages/AddEquipment";
 function App() {
   return (
     <UserContextProvider>
@@ -26,6 +28,9 @@ function App() {
             <Route path="/TestAdd" element={<TestAdd />} />
             <Route path="/SelectAdd" element={<SelectAdd />} />
             <Route path="/AddAquarium" element={<AddAkvarijum />} />
+            <Route path="/AddFish" element={<AddFish />} />
+            <Route path="/AddPlant" element={<AddPlant />} />
+            <Route path="/AddEquipment" element={<AddEquipment />} />
             <Route path="/LoginRegister" element={<LoginRegister />} />
             <Route path="/item/:id" element={<ItemPage />} />
           </Route>

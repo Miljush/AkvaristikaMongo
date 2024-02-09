@@ -213,7 +213,7 @@ const Header = () => {
               <a href="AboutUs">O nama</a>
             </li>
             <li>
-              <a href="/SelectAdd">Dodaj proizvod</a>
+              <a href="/SelectAdd">Admin panel</a>
             </li>
           </ul>
           <div id="utility">

@@ -13,6 +13,7 @@ const fishController = require("./controllers/fishController");
 const plantController = require("./controllers/plantController");
 const equipmentController = require("./controllers/equipmentController");
 const authController = require("./controllers/authController");
+const orderController = require("./controllers/orderController")
 
 connectDB();
 app.use(express.json());
@@ -52,7 +53,7 @@ app.put("/updateFish", fishController.updateFish);
 app.delete("/deleteFish", fishController.deleteFish);
 
 //Plant
-app.get("/getPlant", plantController.getPlant);
+app.get("/getPlants", plantController.getPlants);
 app.post("/addPlant", plantController.addPlant);
 app.put("/updatePlant", plantController.updatePlant);
 app.delete("/deletePlant", plantController.deletePlant);
@@ -71,6 +72,9 @@ app.get("/getItemCount", cartController.getItemCount);
 app.put("/removeItem", cartController.removeItem);
 app.use("/addToUserCart", userController.addItemToUsersCart);
 app.get("/getAllItemsCart", cartController.getAllItemsCart);
+
+//Order
+app.put("/createOrder",orderController.createOrder);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

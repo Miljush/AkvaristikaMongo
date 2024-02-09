@@ -1,6 +1,6 @@
 const Plant = require("../models/plant");
 
-const getPlant = async (req, res) => {
+const getPlants = async (req, res) => {
   try {
     const plant = await Plant.find();
     if (!plant) {
@@ -42,7 +42,7 @@ const addPlant = async (req, res) => {
 };
 
 const updatePlant = async (req, res) => {
-  const id = req.body.id;
+  const id = req.body._id;
   if (!id) {
     return res
       .sendStatus(400)
@@ -88,4 +88,4 @@ const deletePlant = async (req, res) => {
   }
 };
 
-module.exports = { addPlant, getPlant, updatePlant, deletePlant };
+module.exports = { addPlant, getPlants, updatePlant, deletePlant };
