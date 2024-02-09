@@ -27,7 +27,12 @@ const SelectAdd = () => {
               <h3 className="card__headingg">Oprema</h3>
             </div>
           </a>
-          <div></div>
+          <a className="cardd" href="/Orders">
+            <div className="card__backgroundd pozadina5" />
+            <div className="card__contentt">
+              <h3 className="card__headingg">Narudzbine</h3>
+            </div>
+          </a>
         </div>
       </section>
     </div>

@@ -13,7 +13,7 @@ const fishController = require("./controllers/fishController");
 const plantController = require("./controllers/plantController");
 const equipmentController = require("./controllers/equipmentController");
 const authController = require("./controllers/authController");
-const orderController = require("./controllers/orderController")
+const orderController = require("./controllers/orderController");
 
 connectDB();
 app.use(express.json());
@@ -74,7 +74,10 @@ app.use("/addToUserCart", userController.addItemToUsersCart);
 app.get("/getAllItemsCart", cartController.getAllItemsCart);
 
 //Order
-app.put("/createOrder",orderController.createOrder);
+app.post("/createOrder", orderController.createOrder);
+app.get("/getOrder", orderController.getOrder);
+app.get("/getOrders", orderController.getOrders);
+app.delete("/deleteOrder",orderController.deleteOrder)
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

@@ -15,6 +15,7 @@ const Cart = () => {
   const [rehydrate, setRehydrate] = useState(true);
   const [iskoriscen, setIskoriscen] = useState(false);
   const [kupon, setKupon] = useState("");
+  const [items2, setItems2] = useState(null);
   const iskoristiKupon = () => {
     if (iskoriscen == false && kupon == "Diskus20") {
       setTotal(total - 0.2 * total);
@@ -26,6 +27,21 @@ const Cart = () => {
     console.log("hidriran sam");
   };
 
+  const checkout = () => {
+    if (items2.length != 0) {
+      axios
+        .post("http://localhost:3500/createOrder", {
+          userId: username._id,
+          price: total,
+        })
+        .then((res) => {
+          if (username) alert("Uspesno poslata narudzbina!");
+          setRehydrate(!rehydrate);
+        });
+    } else {
+      alert("Punjeno s prazno");
+    }
+  };
   useEffect(() => {
     if (ready) {
       axios
@@ -44,6 +60,7 @@ const Cart = () => {
           params: { cartId: username.cart },
         })
         .then((response) => {
+          setItems2(response.data);
           var total = 0;
           response.data.forEach((item) => {
             total += item.price;
@@ -122,7 +139,7 @@ const Cart = () => {
                 <span className="value">{total} din</span>
               </li>
               <li className="totalRow">
-                <a href="#" className="btn continue">
+                <a href="#" onClick={checkout} className="btn continue">
                   Nastavi dalje
                 </a>
               </li>

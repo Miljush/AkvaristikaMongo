@@ -1,0 +1,40 @@
+import React from "react";
+
+const Orders = () => {
+  return (
+    <>
+      <h1>RWD List to Table</h1>
+      <table className="rwd-table">
+        <tbody>
+          <tr>
+            <th>Movie Title</th>
+            <th>Genre</th>
+            <th>Year</th>
+            <th>Gross</th>
+          </tr>
+          <tr>
+            <td data-th="Movie Title">Star Wars</td>
+            <td data-th="Genre">Adventure, Sci-fi</td>
+            <td data-th="Year">1977</td>
+            <td data-th="Gross">$460,935,665</td>
+          </tr>
+          <tr>
+            <td data-th="Movie Title">Howard The Duck</td>
+            <td data-th="Genre">"Comedy"</td>
+            <td data-th="Year">1986</td>
+            <td data-th="Gross">$16,295,774</td>
+          </tr>
+          <tr>
+            <td data-th="Movie Title">American Graffiti</td>
+            <td data-th="Genre">Comedy, Drama</td>
+            <td data-th="Year">1973</td>
+            <td data-th="Gross">$115,000,000</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>← Drag window (in editor or full page view) to see the effect. →</p>
+    </>
+  );
+};
+
+export default Orders;
