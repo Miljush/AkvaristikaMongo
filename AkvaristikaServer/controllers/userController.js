@@ -24,13 +24,14 @@ const getUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { username, password, email, profilePicture, firstName, lastName } =
     req.body;
+  console.log(req.body);
   if (!username || !password || !email || !firstName || !lastName)
     return res
       .status(400)
       .json({ message: "You need to fill out the required fields." });
   // check for duplicate usernames in the db
   const duplicate = await User.findOne({ username: username }).exec();
-
+  console.log(req.body);
   if (duplicate) return res.sendStatus(409); //Conflict
   try {
     //encrypt the password
@@ -117,6 +118,7 @@ const handleUserInfo = (req, res) => {
         _id,
         role,
         cart,
+        __t,
       } = await User.findById(userInfo.id);
       res.json({
         username,
@@ -127,6 +129,7 @@ const handleUserInfo = (req, res) => {
         _id,
         role,
         cart,
+        __t,
       });
     });
   } else {

@@ -212,9 +212,11 @@ const Header = () => {
             <li>
               <a href="AboutUs">O nama</a>
             </li>
-            <li>
-              <a href="/SelectAdd">Admin panel</a>
-            </li>
+            {username?.role == "Admin" && (
+              <li>
+                <a href="/SelectAdd">Admin panel</a>
+              </li>
+            )}
           </ul>
           <div id="utility">
             {!!username && (

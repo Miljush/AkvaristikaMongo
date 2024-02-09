@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 //User
 app.get("/getUser", userController.getUser);
-app.post("/registerUser", userController.registerUser);
+app.post("/register", userController.registerUser);
 app.get("/getCartForUser", userController.getCartForUser);
 app.use("/login", authController.handleLogin);
 app.use("/logout", authController.handleLogout);

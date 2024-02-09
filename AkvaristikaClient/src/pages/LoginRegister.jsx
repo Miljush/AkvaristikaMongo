@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginRegister = () => {
   const [active, setActive] = useState("");
@@ -13,6 +14,12 @@ const LoginRegister = () => {
   const [username, setUsernamee] = useState("");
   const [password, setPassword] = useState("");
   const { setUsername } = useContext(UserContext);
+  const [usernameRegister, setUsernameRegister] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [passwordRegister, setPasswordRegister] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   const log = async (ev) => {
     ev.preventDefault();
     const response = await axios.post(
@@ -24,6 +31,20 @@ const LoginRegister = () => {
       { withCredentials: true }
     );
     setUsername(response.data);
+    navigate("/allProducts");
+  };
+
+  const register = async (ev) => {
+    ev.preventDefault();
+    const response = await axios.post("http://localhost:3500/register", {
+      username: usernameRegister,
+      password: passwordRegister,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      profilePicture: "slika.jpg",
+    });
+    setActive("");
   };
   useEffect(() => {}, [active]);
 
@@ -34,14 +55,49 @@ const LoginRegister = () => {
           <form className="formicko">
             <h1 className="heder1">Create Account</h1>
 
-            <input className="inputiris" type="text" placeholder="Name" />
-            <input className="inputiris" type="text" placeholder="Email" />
             <input
+              value={firstName}
+              onChange={(ev) => setFirstName(ev.target.value)}
+              className="inputiris"
+              type="text"
+              placeholder="Ime"
+            />
+            <input
+              value={lastName}
+              onChange={(ev) => setLastName(ev.target.value)}
+              className="inputiris"
+              type="text"
+              placeholder="Prezime"
+            />
+            <input
+              value={usernameRegister}
+              onChange={(ev) => setUsernameRegister(ev.target.value)}
+              className="inputiris"
+              type="text"
+              placeholder="username"
+            />
+            <input
+              value={passwordRegister}
+              onChange={(ev) => setPasswordRegister(ev.target.value)}
               className="inputiris"
               type="password"
               placeholder="Lozinka"
             />
-            <button className="dugmetara">Registruj se</button>
+            <input
+              value={email}
+              onChange={(ev) => setEmail(ev.target.value)}
+              className="inputiris"
+              type="email"
+              placeholder="E-mail"
+            />
+            <button
+              className="dugmetara"
+              onClick={(ev) => {
+                register(ev);
+              }}
+            >
+              Registruj se
+            </button>
           </form>
         </div>
         <div className="form-containerko sign-in-containerko">
