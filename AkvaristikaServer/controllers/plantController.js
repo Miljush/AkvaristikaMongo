@@ -68,7 +68,7 @@ const updatePlant = async (req, res) => {
 };
 
 const deletePlant = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   if (!id) {
     return res
       .status(400)

@@ -11,6 +11,7 @@ const itemController = require("./controllers/itemController");
 const fishController = require("./controllers/fishController");
 const plantController = require("./controllers/plantController");
 const equipmentController = require("./controllers/equipmentController");
+const authController = require("./controllers/authController");
 
 connectDB();
 app.use(express.json());
@@ -23,6 +24,8 @@ app.use(
 app.get("/getUser", userController.getUser);
 app.post("/registerUser", userController.registerUser);
 app.get("/getCartForUser", userController.getCartForUser);
+app.use("/login", authController.handleLogin);
+app.use("/logout", authController.handleLogout);
 
 //Item
 app.get("/getItems", itemController.getItems);
@@ -33,6 +36,7 @@ app.get("/getAquariums", aquariumController.getAquariums);
 app.post("/addAquarium", aquariumController.addAquarium);
 app.put("/updateAquarium", aquariumController.updateAquarium);
 app.delete("/deleteAquarium", aquariumController.deleteAquarium);
+app.get("/filterByBrand", aquariumController.filterByBrand);
 
 //Fish
 app.get("/getFish", fishController.getFish);
@@ -51,6 +55,8 @@ app.get("/getEquipment", equipmentController.getEquipment);
 app.post("/addEquipment", equipmentController.addEquipment);
 app.put("/updateEquipment", equipmentController.updateEquipment);
 app.delete("/deleteEquipment", equipmentController.deleteEquipment);
+app.get("/filterByType", equipmentController.filterByType);
+app.get("filterByTypeAndBrand", equipmentController.filterByTypeAndBrand);
 
 //Cart
 app.put("/addToCart", cartController.addToCart);

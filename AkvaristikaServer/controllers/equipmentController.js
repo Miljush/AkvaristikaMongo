@@ -69,7 +69,7 @@ const updateEquipment = async (req, res) => {
 };
 
 const deleteEquipment = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.query;
   if (!id) {
     return res
       .status(400)
@@ -89,9 +89,55 @@ const deleteEquipment = async (req, res) => {
   }
 };
 
+const filterByType = async (req, res) => {
+  const { type } = req.body;
+  try {
+    const equipment = await Equipment.find();
+    if (!equipment) {
+      return res
+        .sendStatus(400)
+        .json({ message: "You need to fill out the required fields." });
+    } else {
+      filteredEquipment = [];
+      equipment.forEach((eq) => {
+        if (eq.type == type) {
+          filteredEquipment.push(eq);
+        }
+      });
+      res.json(filteredEquipment);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const filterByTypeAndBrand = async (req, res) => {
+  const { brand, type } = req.body;
+  try {
+    const equipment = await Equipment.find();
+    if (!equipment) {
+      return res
+        .sendStatus(400)
+        .json({ message: "You need to fill out the required fields." });
+    } else {
+      filteredEquipment = [];
+      equipment.forEach((eq) => {
+        if (eq.type == type && eq.brand == brand) {
+          filteredEquipment.push(eq);
+        }
+      });
+      res.json(filteredEquipment);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   addEquipment,
   updateEquipment,
   deleteEquipment,
   getEquipment,
+  filterByType,
+  filterByTypeAndBrand,
 };

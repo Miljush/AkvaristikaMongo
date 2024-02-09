@@ -91,4 +91,26 @@ const deleteAquarium = async (req, res) => {
   }
 };
 
-module.exports = { addAquarium, updateAquarium, deleteAquarium, getAquariums };
+const filterByBrand = async(req,res)=>{
+  const {brandName} = req.body;
+  try {
+    const aquariums = await Aquarium.find();
+    if (!aquariums) {
+      return res
+        .sendStatus(400)
+        .json({ message: "You need to fill out the required fields." });
+    } else {
+      filteredAquariums=[];
+      aquariums.forEach((aquarium)=>{
+        if(aquarium.brand==brandName){
+          filteredAquariums.push(aquarium);
+        }
+      })
+      res.json(filteredAquariums);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { addAquarium, updateAquarium, deleteAquarium, getAquariums,filterByBrand };
