@@ -41,7 +41,7 @@ const addEquipment = async (req, res) => {
 };
 
 const updateEquipment = async (req, res) => {
-  const id = req.body.id;
+  const id = req.body._id;
   if (!id) {
     return res
       .sendStatus(400)

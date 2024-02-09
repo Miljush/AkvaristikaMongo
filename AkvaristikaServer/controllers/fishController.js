@@ -42,18 +42,14 @@ const addFish = async (req, res) => {
 };
 
 const updateFish = async (req, res) => {
-  const id = req.body.id;
+  const id = req.body._id;
   if (!id) {
-    return res
-      .sendStatus(400)
-      .json({ message: "You need to fill out the required fields." });
+    return res.sendStatus(400);
   }
   try {
     const fish = await Fish.findOne({ _id: `${id}` }).exec();
     if (!fish) {
-      return res
-        .sendStatus(400)
-        .json({ message: "You need to fill out the required fields." });
+      return res.sendStatus(400);
     } else {
       if (req.body?.name) fish.name = req.body.name;
       if (req.body?.price) fish.price = req.body.price;
