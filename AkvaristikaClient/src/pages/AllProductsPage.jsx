@@ -39,7 +39,7 @@ const AllProductsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [items]);
+  }, []);
   if (!readyStrana) {
     return <LoadingPage />;
   } else {

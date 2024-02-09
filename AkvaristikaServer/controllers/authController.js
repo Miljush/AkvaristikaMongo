@@ -15,7 +15,7 @@ const handleLogin = async (req, res) => {
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
     jwt.sign(
-      { username: foundUser.username, id: foundUser._id ,role:foundUser.role},
+      { username: foundUser.username, id: foundUser._id, role: foundUser.role },
       process.env.JWT_SECRET,
       {},
       (err, token) => {
@@ -34,4 +34,4 @@ const handleLogout = (req, res) => {
   res.cookie("token", "").json(true);
 };
 
-module.exports = { handleLogin,handleLogout };
+module.exports = { handleLogin, handleLogout };

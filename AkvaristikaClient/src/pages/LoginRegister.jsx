@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/UserContext";
 
 const LoginRegister = () => {
   const [active, setActive] = useState("");
@@ -8,17 +10,32 @@ const LoginRegister = () => {
   const HandeSignIn = () => {
     setActive("");
   };
+  const [username, setUsernamee] = useState("");
+  const [password, setPassword] = useState("");
+  const { setUsername } = useContext(UserContext);
+  const log = async (ev) => {
+    ev.preventDefault();
+    const response = await axios.post(
+      "http://localhost:3500/login",
+      {
+        user: username,
+        pwd: password,
+      },
+      { withCredentials: true }
+    );
+    setUsername(response.data);
+  };
   useEffect(() => {}, [active]);
 
   return (
     <div className="glavniii">
       <div className={`containerko ${active}`} id="containerko">
-        <div class="form-containerko sign-up-containerko">
-          <form className="formicko" action="#">
+        <div className="form-containerko sign-up-containerko">
+          <form className="formicko">
             <h1 className="heder1">Create Account</h1>
 
             <input className="inputiris" type="text" placeholder="Name" />
-            <input className="inputiris" type="email" placeholder="Email" />
+            <input className="inputiris" type="text" placeholder="Email" />
             <input
               className="inputiris"
               type="password"
@@ -27,25 +44,34 @@ const LoginRegister = () => {
             <button className="dugmetara">Registruj se</button>
           </form>
         </div>
-        <div class="form-containerko sign-in-containerko">
-          <form className="formicko" action="#">
+        <div className="form-containerko sign-in-containerko">
+          <form className="formicko">
             <h1 className="heder1">Prijava</h1>
-
-            <input className="inputiris" type="email" placeholder="Email" />
+            <input
+              value={username}
+              onChange={(ev) => setUsernamee(ev.target.value)}
+              className="inputiris"
+              type="text"
+              placeholder="username"
+            />
             <input
               className="inputiris"
+              value={password}
+              onChange={(ev) => setPassword(ev.target.value)}
               type="password"
               placeholder="Lozinka"
             />
             <a className="aaa" href="#">
               Zaboravili ste lozinku?
             </a>
-            <button className="dugmetara">Prijavi se</button>
+            <button onClick={(ev) => log(ev)} className="dugmetara">
+              Prijavi se
+            </button>
           </form>
         </div>
-        <div class="overlay-containerko">
-          <div class="overlay">
-            <div class="overlay-panel overlay-left">
+        <div className="overlay-containerko">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
               <h1 className="heder1">Dobrodošao nazad!</h1>
               <p className="paragraf">
                 Da biste ostali povezani s nama, molimo vas da se prijavite sa
@@ -59,7 +85,7 @@ const LoginRegister = () => {
                 Prijavi se
               </button>
             </div>
-            <div class="overlay-panel overlay-right">
+            <div className="overlay-panel overlay-right">
               <h1 className="heder1">Zdravo, ljubitelju akvarijuma!</h1>
               <p className="paragraf">
                 Unesi svoje lične podatke i započni svoju avanturu s nama

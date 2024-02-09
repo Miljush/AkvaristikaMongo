@@ -1,7 +1,10 @@
 const Cart = require("../models/cart");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const cartController = require("../controllers/cartController");
+const cookies = require("cookie-parser");
+require("dotenv").config();
 const getUser = async (req, res) => {
   const id = req.body.id;
   try {
@@ -46,7 +49,6 @@ const registerUser = async (req, res) => {
     const cart = await Cart.create({});
     result.cart = cart._id;
     const finalResult = await result.save();
-    console.log(finalResult);
 
     res.status(201).json({ success: `New user ${username} created!` });
   } catch (err) {
@@ -83,4 +85,59 @@ const getCartForUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
-module.exports = { getUser, registerUser, addItemToUsersCart,getCartForUser };
+
+const getCartItemCountForUser = async (req, res) => {
+  const { id } = req.query;
+  try {
+    const user = await User.findById(id);
+    if (user) {
+      const cart = await Cart.findOne({ _id: `${user.cart}` }).exec();
+      res.status(200).json(cart.items.length);
+    } else {
+      res.status(404).json("No such User");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const handleUserInfo = (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userInfo) => {
+      if (err) {
+        console.log(err);
+      }
+      const {
+        username,
+        email,
+        firstName,
+        lastName,
+        profilePicture,
+        _id,
+        role,
+        cart,
+      } = await User.findById(userInfo.id);
+      res.json({
+        username,
+        email,
+        firstName,
+        lastName,
+        profilePicture,
+        _id,
+        role,
+        cart,
+      });
+    });
+  } else {
+    res.json(null);
+  }
+};
+module.exports = {
+  getUser,
+  registerUser,
+  addItemToUsersCart,
+  getCartForUser,
+  handleUserInfo,
+  getCartItemCountForUser,
+};

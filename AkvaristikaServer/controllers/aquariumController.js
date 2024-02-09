@@ -17,7 +17,6 @@ const getAquariums = async (req, res) => {
 
 const addAquarium = async (req, res) => {
   const { name, price, image, description, brand } = req.body;
-  console.log(req.body);
   if (!name || !price || !image || !description || !brand)
     return res
       .status(400)
@@ -33,8 +32,6 @@ const addAquarium = async (req, res) => {
       image: image,
       brand: brand,
     });
-
-    console.log(result);
 
     res.status(201).json({ success: `New aquarium ${name} created!` });
   } catch (err) {
@@ -71,7 +68,6 @@ const updateAquarium = async (req, res) => {
 
 const deleteAquarium = async (req, res) => {
   const { id } = req.query;
-  console.log(id);
   if (!id) {
     return res
       .status(400)
@@ -91,8 +87,8 @@ const deleteAquarium = async (req, res) => {
   }
 };
 
-const filterByBrand = async(req,res)=>{
-  const {brandName} = req.body;
+const filterByBrand = async (req, res) => {
+  const { brandName } = req.body;
   try {
     const aquariums = await Aquarium.find();
     if (!aquariums) {
@@ -100,12 +96,12 @@ const filterByBrand = async(req,res)=>{
         .sendStatus(400)
         .json({ message: "You need to fill out the required fields." });
     } else {
-      filteredAquariums=[];
-      aquariums.forEach((aquarium)=>{
-        if(aquarium.brand==brandName){
+      filteredAquariums = [];
+      aquariums.forEach((aquarium) => {
+        if (aquarium.brand == brandName) {
           filteredAquariums.push(aquarium);
         }
-      })
+      });
       res.json(filteredAquariums);
     }
   } catch (err) {
@@ -113,4 +109,10 @@ const filterByBrand = async(req,res)=>{
   }
 };
 
-module.exports = { addAquarium, updateAquarium, deleteAquarium, getAquariums,filterByBrand };
+module.exports = {
+  addAquarium,
+  updateAquarium,
+  deleteAquarium,
+  getAquariums,
+  filterByBrand,
+};

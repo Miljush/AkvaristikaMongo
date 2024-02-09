@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT || 3500;
 const mongoose = require("mongoose");
@@ -15,17 +16,23 @@ const authController = require("./controllers/authController");
 
 connectDB();
 app.use(express.json());
+
 app.use(
   cors({
+    credentials: true,
     origin: "http://localhost:5173",
   })
 );
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 //User
 app.get("/getUser", userController.getUser);
 app.post("/registerUser", userController.registerUser);
 app.get("/getCartForUser", userController.getCartForUser);
 app.use("/login", authController.handleLogin);
 app.use("/logout", authController.handleLogout);
+app.get("/userProfileInfo", userController.handleUserInfo);
+app.get("/cartItemCountUser", userController.getCartItemCountForUser);
 
 //Item
 app.get("/getItems", itemController.getItems);
@@ -63,6 +70,7 @@ app.put("/addToCart", cartController.addToCart);
 app.get("/getItemCount", cartController.getItemCount);
 app.put("/removeItem", cartController.removeItem);
 app.use("/addToUserCart", userController.addItemToUsersCart);
+app.get("/getAllItemsCart", cartController.getAllItemsCart);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

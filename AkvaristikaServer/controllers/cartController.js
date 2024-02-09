@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Cart = require("../models/cart");
 const Item = require("../models/item");
 
@@ -23,7 +24,7 @@ const addToCart = async (req, res) => {
 };
 
 const getItemCount = async (req, res) => {
-  const { cartId } = req.body;
+  const { cartId } = req.query;
   try {
     const cart = await Cart.findOne({ _id: `${cartId}` }).exec();
     if (!cart) {
@@ -34,7 +35,7 @@ const getItemCount = async (req, res) => {
     const items = cart.items;
     const duplicateItems = {};
     items.forEach((item) => {
-      duplicateItems[item] = (duplicateItems[item] || 0) + 1;
+      duplicateItems[item._id] = (duplicateItems[item._id] || 0) + 1;
     });
     res.json(duplicateItems);
   } catch (err) {
@@ -42,8 +43,8 @@ const getItemCount = async (req, res) => {
   }
 };
 
-const removeItem = async (req, res) => {
-  const { cartId, itemId, many } = req.body;
+const getAllItemsCart = async (req, res) => {
+  const { cartId } = req.query;
   try {
     const cart = await Cart.findOne({ _id: `${cartId}` }).exec();
     if (!cart) {
@@ -51,18 +52,35 @@ const removeItem = async (req, res) => {
         .sendStatus(400)
         .json({ message: "No cart with that id found" });
     }
-    const items = cart.items;
-    if (many) {
-      items.forEach((item) => {
-        if (item._id == itemId) {
-          items.pop(item);
-        }
-      });
-    } else {
-      const item = await Item.findOne({_id:`${itemId}`}).exec();
-      items.pop(item);
+    var niz = [];
+    var pom = null;
+    for (let i = 0; i < cart.items.length; i++) {
+      pom = await Item.findById(cart.items[i]);
+      niz.push(pom);
     }
-    cart.items = items;
+    res.status(200).json(niz);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const removeItem = async (req, res) => {
+  const { cartId, itemId, many } = req.body;
+  const objectId = new mongoose.Types.ObjectId(itemId);
+  try {
+    const cart = await Cart.findOne({ _id: `${cartId}` }).exec();
+    if (!cart) {
+      return res
+        .sendStatus(400)
+        .json({ message: "No cart with that id found" });
+    }
+    var itemi = cart.items;
+    if (many) {
+      itemi = itemi.filter(
+        (item) => item._id.toString() != objectId.toString()
+      );
+    }
+    cart.items = itemi;
     const newCart = await cart.save();
     return res.json(newCart);
   } catch (err) {
@@ -70,4 +88,4 @@ const removeItem = async (req, res) => {
   }
 };
 
-module.exports = { addToCart, getItemCount, removeItem };
+module.exports = { addToCart, getItemCount, removeItem, getAllItemsCart };
