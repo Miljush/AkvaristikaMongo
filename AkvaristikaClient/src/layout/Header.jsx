@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Header.css";
 import "../styles/Sidebar.scss";
 import "../styles/Kartice.css";
@@ -7,8 +7,11 @@ import "../styles/AboutUs.scss";
 import "../styles/SelectCard.css";
 import "../styles/AddAquarium.css";
 import "../styles/LoginRegister.css";
+import "../styles/ItemPage.scss";
+import { useAppContext } from "../context/AppContext";
 
 const Header = () => {
+  const { headerData } = useAppContext();
   return (
     <header>
       <div className="banner">
@@ -234,7 +237,7 @@ const Header = () => {
                 textAnchor="middle"
                 alignmentBaseline="middle"
               >
-                3
+                {headerData}
               </text>
             </svg>
           </a>

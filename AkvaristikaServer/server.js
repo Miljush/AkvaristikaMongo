@@ -26,6 +26,7 @@ app.get("/getCartForUser", userController.getCartForUser);
 
 //Item
 app.get("/getItems", itemController.getItems);
+app.get("/getItem", itemController.getItem);
 
 //Aquarium
 app.get("/getAquariums", aquariumController.getAquariums);

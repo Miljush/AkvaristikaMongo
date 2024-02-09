@@ -43,7 +43,7 @@ const addAquarium = async (req, res) => {
 };
 
 const updateAquarium = async (req, res) => {
-  const id = req.body.id;
+  const id = req.body._id;
   if (!id) {
     return res
       .sendStatus(400)

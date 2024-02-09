@@ -9,21 +9,26 @@ import TestAdd from "./pages/TestAdd";
 import SelectAdd from "./pages/SelectAdd";
 import AddAkvarijum from "./pages/AddAkvarijum";
 import LoginRegister from "./pages/LoginRegister";
+import ItemPage from "./pages/ItemPage";
+import { AppProvider } from "./context/AppContext";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="/allProducts" element={<AllProductsPage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/TestAdd" element={<TestAdd />} />
-        <Route path="/SelectAdd" element={<SelectAdd />} />
-        <Route path="/AddAquarium" element={<AddAkvarijum />} />
-        <Route path="/LoginRegister" element={<LoginRegister />} />
-      </Route>
-    </Routes>
+    <AppProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/allProducts" element={<AllProductsPage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/TestAdd" element={<TestAdd />} />
+          <Route path="/SelectAdd" element={<SelectAdd />} />
+          <Route path="/AddAquarium" element={<AddAkvarijum />} />
+          <Route path="/LoginRegister" element={<LoginRegister />} />
+          <Route path="/item/:id" element={<ItemPage />} />
+        </Route>
+      </Routes>
+    </AppProvider>
   );
 }
 

@@ -14,5 +14,17 @@ const getItems = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-module.exports = { getItems };
+const getItem = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const item = await Item.findById(id);
+    if (!item) {
+      return res.sendStatus(400);
+    } else {
+      res.json(item);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+module.exports = { getItems, getItem };
