@@ -8,13 +8,34 @@ import "../styles/SelectCard.css";
 import "../styles/AddAquarium.css";
 import "../styles/LoginRegister.css";
 import "../styles/ItemPage.scss";
+import "../styles/Orders.scss";
 import { useAppContext } from "../context/AppContext";
 import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { headerData } = useAppContext();
-  const { username, ready } = useContext(UserContext);
-  useEffect(() => {}, [username, ready]);
+  const { username, ready, setUsername } = useContext(UserContext);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [rehydrate, setRehydrate] = useState(false);
+  const handleUsernameClick = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:3500/logout", {
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        setMenuOpen(false);
+        setUsername(null);
+        navigate("/");
+      });
+  };
+  useEffect(() => {}, [username, ready, rehydrate]);
   if (ready) {
     return (
       <header>
@@ -44,112 +65,6 @@ const Header = () => {
           <ul className="navigation-menu">
             <li>
               <a href="/allProducts">Proizvodi</a>
-              <ul className="subnav">
-                <li className="card-med" id="sup-dog">
-                  <div className="card-image">
-                    <img src="../../public/img/akvarijum.jpg" />
-                  </div>
-                  <a href="#">
-                    <span>Akvarijumi</span>
-                    <span>
-                      Pregledaj sve{" "}
-                      <svg
-                        width="20px"
-                        height="20px"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 12H20M20 12L16 8M20 12L16 16"
-                          stroke="#45413e"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </a>
-                </li>
-                <li className="card-med" id="sup-cat">
-                  <div className="card-image">
-                    <img src="../../public/img/diskus.jpg" />
-                  </div>
-                  <a href="#">
-                    <span>Ribice</span>
-                    <span>
-                      Pregledaj sve{" "}
-                      <svg
-                        width="20px"
-                        height="20px"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 12H20M20 12L16 8M20 12L16 16"
-                          stroke="#45413e"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </a>
-                </li>
-                <li className="card-med" id="sup-bird">
-                  <div className="card-image">
-                    <img src="../../public/img/biljke.jpg" />
-                  </div>
-                  <a href="#">
-                    <span>Biljke</span>
-                    <span>
-                      Pregledaj sve{" "}
-                      <svg
-                        width="20px"
-                        height="20px"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 12H20M20 12L16 8M20 12L16 16"
-                          stroke="#45413e"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </a>
-                </li>
-                <li className="card-med" id="sup-fish">
-                  <div className="card-image">
-                    <img src="../../public/img/oprema.jpg" />
-                  </div>
-                  <a href="#">
-                    <span>Oprema</span>
-                    <span>
-                      Pregledaj sve{" "}
-                      <svg
-                        width="20px"
-                        height="20px"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 12H20M20 12L16 8M20 12L16 16"
-                          stroke="#45413e"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li>
               <a href="#">Servisi</a>
@@ -249,10 +164,39 @@ const Header = () => {
                 </svg>
               </a>
             )}
-            {!username && <a href="/LoginRegister">Login/Register</a>}
+            {!username && (
+              <a
+                href="/LoginRegister"
+                className="linkiiccc"
+                style={{ fontSize: "16px", color: "black" }}
+              >
+                Login/Register
+              </a>
+            )}
 
             {!!username && (
-              <div className={`color-b font-bold`}>{username.username}</div>
+              <>
+                <div
+                  className={`color-b font-bold`}
+                  style={{
+                    fontSize: "16px",
+                    color: "black",
+                    cursor: "pointer",
+                  }}
+                  onClick={handleUsernameClick}
+                >
+                  {username.username}
+                </div>
+                {isMenuOpen && (
+                  <div className="menu">
+                    <ul>
+                      <li style={{ cursor: "pointer" }} onClick={handleLogout}>
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </nav>

@@ -13,7 +13,9 @@ $fontSerif: "Poppins", sans-serif;
 * {
   box-sizing: border-box;
 }
-
+.fonnnt {
+  font: $fontSerif;
+}
 body {
   color: #333;
   -webkit-font-smoothing: antialiased;

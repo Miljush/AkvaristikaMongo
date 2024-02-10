@@ -91,7 +91,7 @@ const LoginRegister = () => {
               placeholder="E-mail"
             />
             <button
-              className="dugmetara"
+              className="buttonarijus dugmetara"
               onClick={(ev) => {
                 register(ev);
               }}
@@ -120,7 +120,10 @@ const LoginRegister = () => {
             <a className="aaa" href="#">
               Zaboravili ste lozinku?
             </a>
-            <button onClick={(ev) => log(ev)} className="dugmetara">
+            <button
+              onClick={(ev) => log(ev)}
+              className="buttonarijus dugmetara"
+            >
               Prijavi se
             </button>
           </form>
@@ -135,7 +138,7 @@ const LoginRegister = () => {
               </p>
               <button
                 onClick={HandeSignIn}
-                className="dugmetara ghost"
+                className="buttonarijus dugmetara ghost"
                 id="signIn"
               >
                 Prijavi se
@@ -148,7 +151,7 @@ const LoginRegister = () => {
               </p>
               <button
                 onClick={HandeSignUp}
-                className="dugmetara ghost"
+                className="buttonarijus dugmetara ghost"
                 id="signUp"
               >
                 Registracija

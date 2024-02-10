@@ -51,51 +51,108 @@ const ItemPage = () => {
   } else {
     if (ready) {
       return (
-        <div className="product">
-          <div className="header"></div>
-          <div className="main" style={{ marginBottom: "20px" }}>
-            <div className="left">
-              <h1>{item.name}</h1>
-              {item?.type && <h2>{item.type}</h2>}
-              {item?.brand && <h2>{item.brand}</h2>}
-
-              <h3>{item.price} din</h3>
-              <img src={item.image} alt="" />
-            </div>
-
-            <div className="right">
-              <p>{item.description}</p>
-              {!!username && (
-                <div className="quantity-adjuster-container">
-                  <a className="adjuster-button" onClick={decreaseQuantity}>
-                    -
-                  </a>
-                  <input
-                    type="number"
-                    min="1"
-                    value={quantity}
-                    onChange={handleInputChange}
-                    className="quantity-input"
-                  />
-                  <a className="adjuster-button" onClick={increaseQuantity}>
-                    +
-                  </a>
-                  <div className="quantity-label">Quantity</div>
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingBottom: "50px",
+              paddingTop: "50px",
+            }}
+          >
+            <div
+              className="bord"
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "500px" }}>
+                  <img src={item.image} />
                 </div>
-              )}
-            </div>
-          </div>
-          <div class="footer">
-            <div class="left">
-              <p id="price">{quantity * item.price}</p>
-            </div>
-            {!!username && (
-              <div class="right">
-                <p onClick={addToCart}>Add to Cart</p>
+                <div style={{ paddingLeft: "30px", maxWidth: "500px" }}>
+                  <div style={{ paddingTop: "30px", fontSize: "40px" }}>
+                    {item.name}
+                  </div>
+                  <div style={{ paddingTop: "20px", fontSize: "30px" }}>
+                    {item.price} din
+                  </div>
+                  <div className="linija"></div>
+                  <div
+                    className="fonnnt"
+                    style={{
+                      paddingTop: "20px",
+                      fontSize: "15px",
+                      font: "Po",
+                    }}
+                  >
+                    {item.description}
+                  </div>
+                </div>
               </div>
-            )}
+              <div
+                style={{
+                  width: "full",
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "10px",
+                }}
+              >
+                <div style={{ width: "50%" }}>
+                  <p
+                    style={{
+                      fontSize: "25px",
+                      color: "#0c1e35",
+                      paddingLeft: "25px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {quantity * item.price}
+                  </p>
+                </div>
+                <div style={{ width: "50%" }}>
+                  {!!username && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row-reverse",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <button
+                          className="dugmelevo"
+                          onClick={decreaseQuantity}
+                        >
+                          -
+                        </button>
+                        <input
+                          className="cartinput"
+                          type="number"
+                          min="1"
+                          value={quantity}
+                          onChange={handleInputChange}
+                        />
+                        <button
+                          className="dugmedesno"
+                          onClick={increaseQuantity}
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div>
+                        <button className="dodajucart" onClick={addToCart}>
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       );
     }
   }

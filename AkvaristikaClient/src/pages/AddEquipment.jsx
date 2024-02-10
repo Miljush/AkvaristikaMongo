@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
 import axios from "axios";
 import Card from "../components/EquipmentCard";
 import LoadingPage from "./LoadingPage";
+import { UserContext } from "../context/UserContext";
+import NotFoundPage from "./NotFoundPage";
 
 const AddEquipment = () => {
   const [imageUpload, setImageUpload] = useState();
@@ -12,6 +14,7 @@ const AddEquipment = () => {
   const [cena, setCena] = useState(0);
   const [opis, setOpis] = useState("");
   const [readyStrana, setReadyStrana] = useState(false);
+  const { username, ready } = useContext(UserContext);
   const [rehydrate, setRehydrate] = useState(true);
   const [equipment, setEquipment] = useState(true);
   const [objekat, setObjekat] = useState(null);
@@ -135,136 +138,154 @@ const AddEquipment = () => {
   if (!readyStrana) {
     return <LoadingPage />;
   } else {
-    return (
-      <div className="flexickoooo">
-        <form className="formmm">
-          {!update && <h1 className="h111"> Dodavanje opreme </h1>}
-          {update && <h1 className="h111"> Izmena opreme </h1>}
-          <fieldset className="fieldsetic">
-            <label className="labelica" htmlFor="name">
-              Ime:
-            </label>
-            <input
-              className="inputicko"
-              type="text"
-              value={ime}
-              onChange={(ev) => setIme(ev.target.value)}
-              placeholder={"Naziv opreme"}
-            />
-            <label className="labelica" htmlFor="name">
-              Cena:
-            </label>
-            <input
-              className="inputicko"
-              type="number"
-              value={cena}
-              onChange={(ev) => setCena(ev.target.value)}
-              placeholder={"Cena u dinarima"}
-            />
+    if (ready) {
+      if (username) {
+        if (username.role == "Admin") {
+          return (
+            <div className="flexickoooo">
+              <form className="formmm">
+                {!update && <h1 className="h111"> Dodavanje opreme </h1>}
+                {update && <h1 className="h111"> Izmena opreme </h1>}
+                <fieldset className="fieldsetic">
+                  <label className="labelica" htmlFor="name">
+                    Ime:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="text"
+                    value={ime}
+                    onChange={(ev) => setIme(ev.target.value)}
+                    placeholder={"Naziv opreme"}
+                  />
+                  <label className="labelica" htmlFor="name">
+                    Cena:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="number"
+                    value={cena}
+                    onChange={(ev) => setCena(ev.target.value)}
+                    placeholder={"Cena u dinarima"}
+                  />
 
-            <label className="labelica">Slika</label>
-            {!update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload}
-              />
-            )}
-            {update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload2}
-              />
-            )}
-            {!update && previewImage && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
+                  <label className="labelica">Slika</label>
+                  {!update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload}
+                    />
+                  )}
+                  {update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload2}
+                    />
+                  )}
+                  {!update && previewImage && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && !slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img src={imageUpload} alt="Preview" className="maxmax" />
+                    </div>
+                  )}
+                  <label className="labelica" htmlFor="bio">
+                    Opis:
+                  </label>
+                  <textarea
+                    className="inputicko"
+                    value={opis}
+                    onChange={(ev) => setOpis(ev.target.value)}
+                    id="bio"
+                    name="user_bio"
+                  />
+                  <label className="labelica" htmlFor="job">
+                    Brend:
+                  </label>
+                  <select
+                    className="inputicko selectar"
+                    id="job"
+                    name="user_job"
+                    value={selectedOption}
+                    onChange={handleOptionChange}
+                  >
+                    <option value="Juwel">Juwel</option>
+                    <option value="Oase">Oase</option>
+                    <option value="Fluval">Fluval</option>
+                    <option value="biOrb">biOrb</option>
+                    <option value="Red Sea">Red Sea</option>
+                    <option value="Innovative Marine">Innovative Marine</option>
+                  </select>
+                  <label className="labelica" htmlFor="job">
+                    Tip:
+                  </label>
+                  <select
+                    className="inputicko selectar"
+                    id="job"
+                    name="user_job"
+                    value={type}
+                    onChange={handleTypeChange}
+                  >
+                    <option value="Pumpe">Pumpe</option>
+                    <option value="Svetla">Svetla</option>
+                    <option value="Filteri">Filteri</option>
+                    <option value="Rasprsivaci">Rasprsivaci</option>
+                  </select>
+                </fieldset>
+                {!update && (
+                  <button onClick={(ev) => uploadFile(ev)} className="buttonko">
+                    Dodaj Opremu
+                  </button>
+                )}
+                {update && (
+                  <button onClick={(ev) => azuriraj(ev)} className="buttonko">
+                    Izmeni Opremu
+                  </button>
+                )}
+              </form>
+              <div className="ivice">
+                <main>
+                  <div className="kontejner">
+                    {equipment.map((eq, index) => (
+                      <Card
+                        key={index}
+                        equipment={eq}
+                        brisanje={true}
+                        handleId={handleClick}
+                      />
+                    ))}
+                  </div>
+                </main>
               </div>
-            )}
-            {update && slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            {update && !slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={imageUpload} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            <label className="labelica" htmlFor="bio">
-              Opis:
-            </label>
-            <textarea
-              className="inputicko"
-              value={opis}
-              onChange={(ev) => setOpis(ev.target.value)}
-              id="bio"
-              name="user_bio"
-            />
-            <label className="labelica" htmlFor="job">
-              Brend:
-            </label>
-            <select
-              className="inputicko selectar"
-              id="job"
-              name="user_job"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="Juwel">Juwel</option>
-              <option value="Oase">Oase</option>
-              <option value="Fluval">Fluval</option>
-              <option value="biOrb">biOrb</option>
-              <option value="Red Sea">Red Sea</option>
-              <option value="Innovative Marine">Innovative Marine</option>
-            </select>
-            <label className="labelica" htmlFor="job">
-              Tip:
-            </label>
-            <select
-              className="inputicko selectar"
-              id="job"
-              name="user_job"
-              value={type}
-              onChange={handleTypeChange}
-            >
-              <option value="Pumpe">Pumpe</option>
-              <option value="Svetla">Svetla</option>
-              <option value="Filteri">Filteri</option>
-              <option value="Rasprsivaci">Rasprsivaci</option>
-            </select>
-          </fieldset>
-          {!update && (
-            <button onClick={(ev) => uploadFile(ev)} className="buttonko">
-              Dodaj Opremu
-            </button>
-          )}
-          {update && (
-            <button onClick={(ev) => azuriraj(ev)} className="buttonko">
-              Izmeni Opremu
-            </button>
-          )}
-        </form>
-        <div className="ivice">
-          <main>
-            <div className="kontejner">
-              {equipment.map((eq, index) => (
-                <Card
-                  key={index}
-                  equipment={eq}
-                  brisanje={true}
-                  handleId={handleClick}
-                />
-              ))}
             </div>
-          </main>
-        </div>
-      </div>
-    );
+          );
+        } else {
+          return <NotFoundPage />;
+        }
+      } else {
+        return <NotFoundPage />;
+      }
+    }
   }
 };
 export default AddEquipment;

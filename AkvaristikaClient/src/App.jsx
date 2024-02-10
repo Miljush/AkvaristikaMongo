@@ -16,6 +16,7 @@ import AddFish from "./pages/AddFish";
 import AddPlant from "./pages/AddPlant";
 import AddEquipment from "./pages/AddEquipment";
 import Orders from "./pages/Orders";
+import NotFoundPage from "./pages/NotFoundPage";
 function App() {
   return (
     <UserContextProvider>
@@ -31,11 +32,12 @@ function App() {
             <Route path="/AddAquarium" element={<AddAkvarijum />} />
             <Route path="/AddFish" element={<AddFish />} />
             <Route path="/AddPlant" element={<AddPlant />} />
-            <Route path="/Orders" element={<Orders/>}/>
+            <Route path="/Orders" element={<Orders />} />
             <Route path="/AddEquipment" element={<AddEquipment />} />
             <Route path="/LoginRegister" element={<LoginRegister />} />
             <Route path="/item/:id" element={<ItemPage />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppProvider>
     </UserContextProvider>

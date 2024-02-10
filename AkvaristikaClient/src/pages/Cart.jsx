@@ -3,6 +3,7 @@ import Cart_Item from "../components/Cart_Item";
 import { UserContext } from "../context/UserContext";
 import LoadingPage from "./LoadingPage";
 import axios from "axios";
+import NotFoundPage from "./NotFoundPage";
 
 const Cart = () => {
   const { username, ready } = useContext(UserContext);
@@ -43,7 +44,7 @@ const Cart = () => {
     }
   };
   useEffect(() => {
-    if (ready) {
+    if (ready && username) {
       axios
         .get("http://localhost:3500/getItemCount", {
           params: { cartId: username.cart },
@@ -81,72 +82,77 @@ const Cart = () => {
         });
     }
   }, [username, ready, rehydrate]);
+
   if (!ready) {
     return <LoadingPage />;
   } else {
-    if (readyStrana && readyStrana2) {
-      return (
-        <div className="wrap cf">
-          <div className="heading cf">
-            <h1>Moja korpa</h1>
-            <a href="#" className="continue">
-              Nastavi kupovinu
-            </a>
-          </div>
-          <div className="cart">
-            <ul className="cartWrap">
-              {Object.entries(items).map(([key, value], index) => (
-                <Cart_Item
-                  even={index}
-                  stock={true}
-                  numberOfItems={value}
-                  cartId={username.cart}
-                  id={key}
-                  key={key}
-                  hidriraj={hidriraj}
-                />
-              ))}
-              <div className="special">
-                <div className="specialContent">
-                  Poklon uz prvu kupovinu Tetra grebalica
+    if (username) {
+      if (readyStrana && readyStrana2) {
+        return (
+          <div className="wrap cf" style={{ minHeight: "50vh" }}>
+            <div className="heading cf">
+              <h1>Moja korpa</h1>
+              <a href="#" className="continue">
+                Nastavi kupovinu
+              </a>
+            </div>
+            <div className="cart">
+              <ul className="cartWrap">
+                {Object.entries(items).map(([key, value], index) => (
+                  <Cart_Item
+                    even={index}
+                    stock={true}
+                    numberOfItems={value}
+                    cartId={username.cart}
+                    id={key}
+                    key={key}
+                    hidriraj={hidriraj}
+                  />
+                ))}
+                <div className="special">
+                  <div className="specialContent">
+                    Poklon uz prvu kupovinu Tetra grebalica
+                  </div>
                 </div>
-              </div>
-            </ul>
+              </ul>
+            </div>
+            <div className="promoCode">
+              <label htmlFor="promo">Imaš promo kod?</label>
+              <input
+                value={kupon}
+                onChange={(ev) => setKupon(ev.target.value)}
+                type="text"
+                name="promo"
+                placholder="Unesi kupon"
+              />
+              <a onClick={iskoristiKupon} href="#" className="btn" />
+            </div>
+            <div className="subtotal cf">
+              <ul>
+                <li className="totalRow">
+                  <span className="label">Cena bez dostave</span>
+                  <span className="value">{bezDostave} din</span>
+                </li>
+                <li className="totalRow">
+                  <span className="label">Dostava</span>
+                  <span className="value">{dostava} din</span>
+                </li>
+                <li className="totalRow final">
+                  <span className="label">Ukupno</span>
+                  <span className="value">{total} din</span>
+                </li>
+                <li className="totalRow">
+                  <a href="#" onClick={checkout} className="btn continue">
+                    Nastavi dalje
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="promoCode">
-            <label htmlFor="promo">Imaš promo kod?</label>
-            <input
-              value={kupon}
-              onChange={(ev) => setKupon(ev.target.value)}
-              type="text"
-              name="promo"
-              placholder="Unesi kupon"
-            />
-            <a onClick={iskoristiKupon} href="#" className="btn" />
-          </div>
-          <div className="subtotal cf">
-            <ul>
-              <li className="totalRow">
-                <span className="label">Cena bez dostave</span>
-                <span className="value">{bezDostave} din</span>
-              </li>
-              <li className="totalRow">
-                <span className="label">Dostava</span>
-                <span className="value">{dostava} din</span>
-              </li>
-              <li className="totalRow final">
-                <span className="label">Ukupno</span>
-                <span className="value">{total} din</span>
-              </li>
-              <li className="totalRow">
-                <a href="#" onClick={checkout} className="btn continue">
-                  Nastavi dalje
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      );
+        );
+      }
+    } else {
+      return <NotFoundPage />;
     }
   }
 };

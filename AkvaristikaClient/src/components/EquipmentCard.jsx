@@ -51,7 +51,7 @@ const EquipmentCard = (objekat) => {
 
           {objekat?.brisanje === true && (
             <button
-              className="close-btn"
+              className=" close-btn"
               style={{
                 position: "absolute",
                 top: "10px",
@@ -92,7 +92,9 @@ const EquipmentCard = (objekat) => {
             )}
 
             <div>
-              <button className="karticaDugme">Brzi pregled</button>
+              <button className="buttonarijus karticaDugme">
+                Brzi pregled
+              </button>
             </div>
           </div>
         </div>

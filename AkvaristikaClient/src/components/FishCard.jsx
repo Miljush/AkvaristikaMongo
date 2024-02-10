@@ -92,7 +92,9 @@ const FishCard = (objekat) => {
             )}
 
             <div>
-              <button className="karticaDugme">Brzi pregled</button>
+              <button className="buttonarijus karticaDugme">
+                Brzi pregled
+              </button>
             </div>
           </div>
         </div>

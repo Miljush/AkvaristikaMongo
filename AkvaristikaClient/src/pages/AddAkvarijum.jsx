@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
 import axios from "axios";
 import Card from "../components/Card";
 import LoadingPage from "./LoadingPage";
+import { UserContext } from "../context/UserContext";
+import NotFoundPage from "./NotFoundPage";
 
 const AddAquarium = () => {
   const [imageUpload, setImageUpload] = useState();
@@ -18,6 +20,7 @@ const AddAquarium = () => {
   const [objekat, setObjekat] = useState(null);
   const [update, setUpdate] = useState(false);
   const [slika, setSlika] = useState(false);
+  const { username, ready } = useContext(UserContext);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -128,121 +131,139 @@ const AddAquarium = () => {
   if (!readyStrana) {
     return <LoadingPage />;
   } else {
-    return (
-      <div className="flexickoooo">
-        <form className="formmm">
-          {!update && <h1 className="h111"> Dodavanje Akavarijuma </h1>}
-          {update && <h1 className="h111"> Izmena Akavarijuma </h1>}
-          <fieldset className="fieldsetic">
-            <label className="labelica" htmlFor="name">
-              Ime:
-            </label>
-            <input
-              className="inputicko"
-              type="text"
-              value={ime}
-              onChange={(ev) => setIme(ev.target.value)}
-              placeholder={"Naziv akavarijuma"}
-            />
-            <label className="labelica" htmlFor="name">
-              Cena:
-            </label>
-            <input
-              className="inputicko"
-              type="number"
-              value={cena}
-              onChange={(ev) => setCena(ev.target.value)}
-              placeholder={"Cena u dinarima"}
-            />
+    if (ready) {
+      if (username) {
+        if (username.role == "Admin") {
+          return (
+            <div className="flexickoooo">
+              <form className="formmm">
+                {!update && <h1 className="h111"> Dodavanje Akavarijuma </h1>}
+                {update && <h1 className="h111"> Izmena Akavarijuma </h1>}
+                <fieldset className="fieldsetic">
+                  <label className="labelica" htmlFor="name">
+                    Ime:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="text"
+                    value={ime}
+                    onChange={(ev) => setIme(ev.target.value)}
+                    placeholder={"Naziv akavarijuma"}
+                  />
+                  <label className="labelica" htmlFor="name">
+                    Cena:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="number"
+                    value={cena}
+                    onChange={(ev) => setCena(ev.target.value)}
+                    placeholder={"Cena u dinarima"}
+                  />
 
-            <label className="labelica">Slika</label>
-            {!update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload}
-              />
-            )}
-            {update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload2}
-              />
-            )}
-            {!update && previewImage && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
+                  <label className="labelica">Slika</label>
+                  {!update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload}
+                    />
+                  )}
+                  {update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload2}
+                    />
+                  )}
+                  {!update && previewImage && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && !slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img src={imageUpload} alt="Preview" className="maxmax" />
+                    </div>
+                  )}
+                  <label className="labelica" htmlFor="bio">
+                    Opis:
+                  </label>
+                  <textarea
+                    className="inputicko"
+                    value={opis}
+                    onChange={(ev) => setOpis(ev.target.value)}
+                    id="bio"
+                    name="user_bio"
+                  />
+                  <label className="labelica" htmlFor="job">
+                    Brend:
+                  </label>
+                  <select
+                    className="inputicko selectar"
+                    id="job"
+                    name="user_job"
+                    value={selectedOption}
+                    onChange={handleOptionChange}
+                  >
+                    <option value="Juwel">Juwel</option>
+                    <option value="Oase">Oase</option>
+                    <option value="Fluval">Fluval</option>
+                    <option value="biOrb">biOrb</option>
+                    <option value="Red Sea">Red Sea</option>
+                    <option value="Innovative Marine">Innovative Marine</option>
+                  </select>
+                </fieldset>
+                {!update && (
+                  <button onClick={(ev) => uploadFile(ev)} className="buttonko">
+                    Dodaj Akvarijum
+                  </button>
+                )}
+                {update && (
+                  <button onClick={(ev) => azuriraj(ev)} className="buttonko">
+                    Izmeni Akvarijum
+                  </button>
+                )}
+              </form>
+              <div className="ivice">
+                <main>
+                  <div className="kontejner">
+                    {akvarijumi.map((akvarijum, index) => (
+                      <Card
+                        key={index}
+                        akvarijum={akvarijum}
+                        brisanje={true}
+                        handleId={handleClick}
+                      />
+                    ))}
+                  </div>
+                </main>
               </div>
-            )}
-            {update && slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            {update && !slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={imageUpload} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            <label className="labelica" htmlFor="bio">
-              Opis:
-            </label>
-            <textarea
-              className="inputicko"
-              value={opis}
-              onChange={(ev) => setOpis(ev.target.value)}
-              id="bio"
-              name="user_bio"
-            />
-            <label className="labelica" htmlFor="job">
-              Brend:
-            </label>
-            <select
-              className="inputicko selectar"
-              id="job"
-              name="user_job"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="Juwel">Juwel</option>
-              <option value="Oase">Oase</option>
-              <option value="Fluval">Fluval</option>
-              <option value="biOrb">biOrb</option>
-              <option value="Red Sea">Red Sea</option>
-              <option value="Innovative Marine">Innovative Marine</option>
-            </select>
-          </fieldset>
-          {!update && (
-            <button onClick={(ev) => uploadFile(ev)} className="buttonko">
-              Dodaj Akvarijum
-            </button>
-          )}
-          {update && (
-            <button onClick={(ev) => azuriraj(ev)} className="buttonko">
-              Izmeni Akvarijum
-            </button>
-          )}
-        </form>
-        <div className="ivice">
-          <main>
-            <div className="kontejner">
-              {akvarijumi.map((akvarijum, index) => (
-                <Card
-                  key={index}
-                  akvarijum={akvarijum}
-                  brisanje={true}
-                  handleId={handleClick}
-                />
-              ))}
             </div>
-          </main>
-        </div>
-      </div>
-    );
+          );
+        } else {
+          return <NotFoundPage />;
+        }
+      } else {
+        return <NotFoundPage />;
+      }
+    }
   }
 };
 export default AddAquarium;

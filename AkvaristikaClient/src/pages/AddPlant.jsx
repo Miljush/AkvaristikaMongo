@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
 import axios from "axios";
 import Card from "../components/PlantCard";
 import LoadingPage from "./LoadingPage";
+import { UserContext } from "../context/UserContext";
+import NotFoundPage from "./NotFoundPage";
 
 const AddPlant = () => {
   const [imageUpload, setImageUpload] = useState();
@@ -13,6 +15,7 @@ const AddPlant = () => {
   const [opis, setOpis] = useState("");
   const [readyStrana, setReadyStrana] = useState(false);
   const [rehydrate, setRehydrate] = useState(true);
+  const { username, ready } = useContext(UserContext);
   const [plants, setPlants] = useState(true);
   const [objekat, setObjekat] = useState(null);
   const [update, setUpdate] = useState(false);
@@ -121,104 +124,122 @@ const AddPlant = () => {
   if (!readyStrana) {
     return <LoadingPage />;
   } else {
-    return (
-      <div className="flexickoooo">
-        <form className="formmm">
-          {!update && <h1 className="h111"> Dodavanje biljke </h1>}
-          {update && <h1 className="h111"> Izmena biljke </h1>}
-          <fieldset className="fieldsetic">
-            <label className="labelica" htmlFor="name">
-              Ime:
-            </label>
-            <input
-              className="inputicko"
-              type="text"
-              value={ime}
-              onChange={(ev) => setIme(ev.target.value)}
-              placeholder={"Naziv biljke"}
-            />
-            <label className="labelica" htmlFor="name">
-              Cena:
-            </label>
-            <input
-              className="inputicko"
-              type="number"
-              value={cena}
-              onChange={(ev) => setCena(ev.target.value)}
-              placeholder={"Cena u dinarima"}
-            />
+    if (ready) {
+      if (username) {
+        if (username.role == "Admin") {
+          return (
+            <div className="flexickoooo">
+              <form className="formmm">
+                {!update && <h1 className="h111"> Dodavanje biljke </h1>}
+                {update && <h1 className="h111"> Izmena biljke </h1>}
+                <fieldset className="fieldsetic">
+                  <label className="labelica" htmlFor="name">
+                    Ime:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="text"
+                    value={ime}
+                    onChange={(ev) => setIme(ev.target.value)}
+                    placeholder={"Naziv biljke"}
+                  />
+                  <label className="labelica" htmlFor="name">
+                    Cena:
+                  </label>
+                  <input
+                    className="inputicko"
+                    type="number"
+                    value={cena}
+                    onChange={(ev) => setCena(ev.target.value)}
+                    placeholder={"Cena u dinarima"}
+                  />
 
-            <label className="labelica">Slika</label>
-            {!update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload}
-              />
-            )}
-            {update && (
-              <input
-                className="inputicko"
-                type="file"
-                onChange={handleImageUpload2}
-              />
-            )}
-            {!update && previewImage && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
+                  <label className="labelica">Slika</label>
+                  {!update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload}
+                    />
+                  )}
+                  {update && (
+                    <input
+                      className="inputicko"
+                      type="file"
+                      onChange={handleImageUpload2}
+                    />
+                  )}
+                  {!update && previewImage && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="maxmax"
+                      />
+                    </div>
+                  )}
+                  {update && !slika && (
+                    <div>
+                      <p>Preview:</p>
+                      <img src={imageUpload} alt="Preview" className="maxmax" />
+                    </div>
+                  )}
+                  <label className="labelica" htmlFor="bio">
+                    Opis:
+                  </label>
+                  <textarea
+                    className="inputicko"
+                    value={opis}
+                    onChange={(ev) => setOpis(ev.target.value)}
+                    id="bio"
+                    name="user_bio"
+                  />
+                </fieldset>
+                {!update && (
+                  <button onClick={(ev) => uploadFile(ev)} className="buttonko">
+                    Dodaj Biljku
+                  </button>
+                )}
+                {update && (
+                  <button onClick={(ev) => azuriraj(ev)} className="buttonko">
+                    Izmeni Biljku
+                  </button>
+                )}
+              </form>
+              <div className="ivice">
+                <main>
+                  <div className="kontejner">
+                    {plants.map((plant, index) => (
+                      <Card
+                        key={index}
+                        plant={plant}
+                        brisanje={true}
+                        handleId={handleClick}
+                      />
+                    ))}
+                  </div>
+                </main>
               </div>
-            )}
-            {update && slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={previewImage} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            {update && !slika && (
-              <div>
-                <p>Preview:</p>
-                <img src={imageUpload} alt="Preview" className="maxmax" />
-              </div>
-            )}
-            <label className="labelica" htmlFor="bio">
-              Opis:
-            </label>
-            <textarea
-              className="inputicko"
-              value={opis}
-              onChange={(ev) => setOpis(ev.target.value)}
-              id="bio"
-              name="user_bio"
-            />
-          </fieldset>
-          {!update && (
-            <button onClick={(ev) => uploadFile(ev)} className="buttonko">
-              Dodaj Biljku
-            </button>
-          )}
-          {update && (
-            <button onClick={(ev) => azuriraj(ev)} className="buttonko">
-              Izmeni Biljku
-            </button>
-          )}
-        </form>
-        <div className="ivice">
-          <main>
-            <div className="kontejner">
-              {plants.map((plant, index) => (
-                <Card
-                  key={index}
-                  plant={plant}
-                  brisanje={true}
-                  handleId={handleClick}
-                />
-              ))}
             </div>
-          </main>
-        </div>
-      </div>
-    );
+          );
+        } else {
+          return <NotFoundPage />;
+        }
+      } else {
+        return <NotFoundPage />;
+      }
+    }
   }
 };
 export default AddPlant;

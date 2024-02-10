@@ -33,7 +33,7 @@ const DefaultCard = (objekat) => {
           )}
 
           <div>
-            <button onClick={navigiraj} className="karticaDugme">
+            <button onClick={navigiraj} className="buttonarijus karticaDugme ">
               Brzi pregled
             </button>
           </div>

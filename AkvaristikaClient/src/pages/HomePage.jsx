@@ -5,7 +5,7 @@ const HomePage = () => {
         <h1>Vaša Jedinstvena Destinacija za Sve Potrebe Vašeg Akvarijuma!</h1>
         <div className="btn-group">
           <a href="/allProducts" className="nonko">
-            <button className="btn-filled-dark">
+            <button className="buttonarijus btn-filled-dark">
               <svg
                 width="30px"
                 height="30px"
@@ -24,7 +24,7 @@ const HomePage = () => {
               Izlistaj Sve Proizvode
             </button>
           </a>
-          <button className="btn-outline-dark btn-hover-color">
+          <button className="buttonarijus btn-outline-dark btn-hover-color">
             <svg
               width="30px"
               height="30px"

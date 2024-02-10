@@ -5,7 +5,11 @@ $red: #ad0000;
 %transition {
   transition: all 0.25s;
 }
-
+.centric {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
 .main-heading {
   font-family: "Open sans", sans-serif;
   font-weight: 300;

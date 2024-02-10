@@ -16,6 +16,53 @@
 .flexmen {
   display: flex;
 }
+.cartinput {
+  font-weight: 600;
+  font-size: 20px;
+  height: 45px;
+  width: 50px;
+}
+.bord {
+  border: solid #0c1e35;
+  padding: 20px;
+  border-radius: 10px;
+}
+.dodajucart {
+  background-color: #0c1e35;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  height: 45px;
+  border: solid #0c1e35;
+  cursor: pointer;
+  margin-right: 20px;
+  border-radius: 22.5px;
+}
+.dugmedesno {
+  background-color: #0c1e35;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+  border: solid #0c1e35;
+  border-top-right-radius: 22.5px;
+  border-bottom-right-radius: 22.5px;
+  cursor: pointer;
+}
+.dugmelevo {
+  background-color: #0c1e35;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+  border: solid #0c1e35;
+  border-top-left-radius: 22.5px;
+  border-bottom-left-radius: 22.5px;
+  cursor: pointer;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -218,7 +265,7 @@ header {
   background: linear-gradient(45deg, #463631 0%, #976c5b 100%);
 }
 
-button.btn-outline {
+.buttonarijus.btn-outline {
   color: var(--light-01);
   border-color: var(--light-01);
 }
@@ -251,7 +298,7 @@ button.btn-outline {
   color: var(--light-01);
 }
 
-button {
+.buttonarijus {
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;
@@ -265,21 +312,21 @@ button {
   cursor: pointer;
 }
 
-button.btn-outline-light {
+.buttonarijus.btn-outline-light {
   color: var(--light-01);
   background: none;
   color: var(--light-01);
   border: 2px solid var(--light-01);
 }
 
-button.btn-outline-dark {
+.buttonarijus.btn-outline-dark {
   color: var(--text-01);
   background: none;
   color: var(--text-01);
   border: 2px solid var(--text-01);
 }
 
-button.btn-filled-dark {
+.buttonarijus.btn-filled-dark {
   color: var(--light-01);
   background: var(--text-01);
   color: var(--light-01);
@@ -297,7 +344,7 @@ button.btn-filled-dark {
   color: var(--text-01);
 }
 
-button:hover,
+.buttonarijus:hover,
 .btn-outline-dark.btn-hover-color:hover {
   color: var(--light-01);
   border: 2px solid var(--brand-01);
@@ -312,6 +359,7 @@ button:hover,
 section,
 footer {
   position: relative;
+  bottom: 0;
   width: 100%;
   padding: 0 var(--pg-margin);
 }
@@ -435,7 +483,13 @@ section h2 {
   /*    margin-top: 8px;*/
   margin-bottom: 24px;
 }
-
+.linija {
+  padding-top: 20px;
+  border-bottom: solid gray;
+}
+.linkiiccc {
+  text-decoration: none !important;
+}
 .card-wide > ul > li span {
   font-size: 16px;
 }
@@ -444,7 +498,7 @@ section h2 {
   margin-bottom: 40px;
 }
 
-.card-large button {
+.card-large .buttonarijus {
   margin-top: auto;
 }
 
