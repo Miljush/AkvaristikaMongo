@@ -74,6 +74,17 @@ const ItemPage = () => {
                   <div style={{ paddingTop: "30px", fontSize: "40px" }}>
                     {item.name}
                   </div>
+                  {item?.brand && (
+                    <div style={{ paddingTop: "5px", fontSize: "30px" }}>
+                      {item.brand}
+                    </div>
+                  )}
+                  {item?.type && (
+                    <div style={{ paddingTop: "5px", fontSize: "20px" }}>
+                      {item.type}
+                    </div>
+                  )}
+
                   <div style={{ paddingTop: "20px", fontSize: "30px" }}>
                     {item.price} din
                   </div>

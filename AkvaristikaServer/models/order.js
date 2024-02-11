@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: false,
   },
+  usernameUser: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

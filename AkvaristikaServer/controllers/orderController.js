@@ -4,23 +4,23 @@ const Cart = require("../models/cart");
 const Item = require("../models/item");
 const createOrder = async (req, res) => {
   const { userId, price } = req.body;
-  console.log(req.body);
   if (!userId)
     return res
       .status(400)
       .json({ message: "You need to fill out the required fields." });
 
   const user = await User.findById(userId);
-  if (!user) return res.sendStatus(400); //No user found
+  if (!user) return res.sendStatus(400);
   const cart = await Cart.findById(user.cart);
   const items = cart.items;
   cart.items = [];
   await cart.save();
   try {
     const result = await Order.create({
-      userId: userId,
+      user: user,
       items: items,
       price: price,
+      usernameUser: user.username,
     });
     res.status(201).json({ success: `New order created!` });
   } catch (err) {

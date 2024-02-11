@@ -60,7 +60,7 @@ const Orders = () => {
                   <table className="rwd-table">
                     <tbody>
                       <tr>
-                        <th>Zoran</th>
+                        <th>{order.usernameUser}</th>
                         <th>{order.price}</th>
                         <th>
                           <svg
